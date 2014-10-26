@@ -19,9 +19,10 @@ function sendRobosapien ( form )
 </head>
 <body>
 <h1>Robosapien remote control</h1>
-<form onsubmit="sendRobosapien(this);">
+<form onsubmit="return sendRobosapien(this);">
 Enter the (decimal) code:
 <input type="text" name="robocode" />
+<input type="submit" value="Submit"/>
 </form>
 <h2>Robosapien remote codes</h2>
 From <a href="http://lirc.10951.n7.nabble.com/robosapien-config-td272.html">http://lirc.10951.n7.nabble.com/robosapien-config-td272.html</a>.
