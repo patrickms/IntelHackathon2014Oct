@@ -29,7 +29,11 @@ function sendRobosapienForm ( form )
 <h1>Robosapien remote control</h1>
 <form onsubmit="return sendRobosapienForm(this);">
 Enter the (hexadecimal) code:
-<input type="text" name="robocode" />
+
+<select name="robocode">
+  <option value="-1">No Command</option>
+  <option value="4C">FORWARD_STEP	0x4C</option>
+</select>
 <input type="submit" value="Submit"/>
 </form>
 <h2>Robosapien remote codes</h2>
