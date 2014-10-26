@@ -4,7 +4,13 @@
 <script src='https://cdn.firebase.com/js/client/1.1.1/firebase.js'></script>
 <script language="JavaScript" type="text/javascript">
 <!--
-function sendRobosapien ( form )
+function sendRobosapien( valHex )
+{
+      var val=parseInt(valHex, 16).toString();
+      myDataRef.set(val);
+};
+
+function sendRobosapienForm ( form )
 {
 
   if (form.robocode.value != "") {
@@ -12,7 +18,7 @@ function sendRobosapien ( form )
       var myDataRef = new Firebase('https://blazing-fire-1158.firebaseio.com/robosapien');
       console.log(form.robocode);
       console.log(form.robocode.value);
-      myDataRef.set(form.robocode.value);
+      sendRobosapien(form.robocode.value);
   }
   return false ; //Don't submit it
 }
@@ -21,14 +27,14 @@ function sendRobosapien ( form )
 </head>
 <body>
 <h1>Robosapien remote control</h1>
-<form onsubmit="return sendRobosapien(this);">
-Enter the (decimal) code:
+<form onsubmit="return sendRobosapienForm(this);">
+Enter the (hexadecimal) code:
 <input type="text" name="robocode" />
 <input type="submit" value="Submit"/>
 </form>
 <h2>Robosapien remote codes</h2>
 From <a href="http://lirc.10951.n7.nabble.com/robosapien-config-td272.html">http://lirc.10951.n7.nabble.com/robosapien-config-td272.html</a>.
-But remember that you need to enter the codes in decimal.
+But remember that you need to enter the codes in hexadecimal.
 <blockquote>
 begin remote
 
