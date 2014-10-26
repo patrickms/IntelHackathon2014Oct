@@ -10,6 +10,8 @@ function sendRobosapien ( form )
   if (form.robocode.value != "") {
     
       var myDataRef = new Firebase('https://blazing-fire-1158.firebaseio.com/robosapien');
+      console.log(form.robocode);
+      console.log(form.robocode.value)
       myDataRef.set(JSON.stringify(form.robocode.value));
   }
   return false ; //Don't submit it
