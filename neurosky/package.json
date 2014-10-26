@@ -1,0 +1,15 @@
+{
+  "name": "tedison_neurosky",
+  "version": "0.0.0",
+  "description": "Neurosky controller for tedison",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "node-neurosky": "0.0.1",
+    "firebase": "~1.1.2"
+  }
+}
