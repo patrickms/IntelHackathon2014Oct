@@ -6,6 +6,7 @@
 <!--
 function sendRobosapien( valHex )
 {
+      var myDataRef = new Firebase('https://blazing-fire-1158.firebaseio.com/robosapien');
       var val=parseInt(valHex, 16).toString();
       myDataRef.set(val);
 };
@@ -15,7 +16,6 @@ function sendRobosapienForm ( form )
 
   if (form.robocode.value != "") {
     
-      var myDataRef = new Firebase('https://blazing-fire-1158.firebaseio.com/robosapien');
       console.log(form.robocode);
       console.log(form.robocode.value);
       sendRobosapien(form.robocode.value);
