@@ -7,6 +7,10 @@
  
 // Pin 13 has an LED connected on most Arduino boards.
 // give it a name:
+
+#include <stdio.h>
+#include <stdlib.h>
+
 const int led = 2; //using external LED
 
 const int boardLED=13;
@@ -68,19 +72,42 @@ void sendHeader()
 
 void sendOne()
 {
+  //Serial.println("sendOne!");
   sendPair(onePulse, oneSpace, waitMS);
 };
 
 
 void sendZero()
 {
+  //Serial.println("sendZero!");
   sendPair(zeroPulse, zeroSpace, waitMS);
 };
+
+void sendCommand(unsigned char cmdIn)
+{
+  unsigned char cmd=cmdIn;
+  Serial.println("Start cmd");
+  Serial.println(cmd);
+  sendHeader();
+  for(int i=0; i<8; i++)
+  {
+    //Serial.println(cmd);
+    if(cmd&128)
+      sendOne();
+    else
+      sendZero();
+    cmd=cmd<<1;
+  }
+  Serial.println("End cmd");
+  
+}
 // the setup routine runs once when you press reset:
 void setup() {                
   // initialize the digital pin as an output. 
   Serial.begin(9600);
-  Serial.println("boo!");
+  //Serial.println("Launching node");
+  //system("node &");
+  //Serial.println("Finished node launch");
   pinMode(boardLED, OUTPUT);   
   pinMode(led, OUTPUT);   
   
@@ -89,6 +116,7 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {            // wait for a second
   //digitalWrite(led, HIGH);  
+  //
   /*
   sendHeader();
   //wave is 0x88
@@ -99,6 +127,52 @@ void loop() {            // wait for a second
   sendOne();
   sendZero();
   sendZero();
-  sendZero();*/ 
-  delay(2000);   
+  sendZero();
+  */
+  //
+  //fopen("/tmp/robocmd","r");
+  //sendCommand(0x8E); //0x88 high5 0x8E fart
+  int maxfsize=500;
+  
+  system("curl https://blazing-fire-1158.firebaseio.com/robosapien.json > /tmp/robocmd.txt");
+  char *cmdStr = (char*)malloc(maxfsize + 1);
+  FILE *lockFile = fopen("/tmp/robolock", "r");
+  if(!lockFile)
+  {
+    FILE *cmdFile = fopen("/tmp/robocmd.txt", "rb");
+    if(cmdFile)
+    {
+      fseek(cmdFile, 0, SEEK_END);
+      long fsize = ftell(cmdFile);
+      if(fsize<3)
+      {
+        fclose(cmdFile);
+        Serial.println("File length too short. Size in bytes is: ");
+        Serial.println(fsize);
+      }
+      else
+      {
+        fseek(cmdFile, 1, SEEK_SET); //avoid leading quote
+    
+        fread(cmdStr, fsize, 1, cmdFile);
+        fclose(cmdFile);
+    
+        cmdStr[fsize] = 0;
+        cmdStr[fsize-1] = 0; //delete trailing quote
+        
+        int cmdInt=atoi(cmdStr);
+        
+        Serial.println("Command Number");
+        Serial.println(cmdInt);
+        if(cmdInt)
+        {
+          Serial.println("Executing Command");
+          sendCommand(cmdInt); //0x88 high5 0x8E fart
+          Serial.println("Command Executed, erasing command from firebase");
+          system("curl -X PUT -d '\"0\"' https://blazing-fire-1158.firebaseio.com/robosapien.json");
+          Serial.println("Command erased");
+        }
+      }
+    }
+  }
 }
