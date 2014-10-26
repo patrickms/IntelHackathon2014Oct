@@ -25,6 +25,8 @@ const int zeroPulse = 833;
 
 const int zeroSpace = 833;
 
+//VERY IMPORTANT NOTE
+//delayMicros on an Edison will delay you a minimum of 90MS!!!!
 void sendPair(int p, int s, int w)
 {
   int targetMicros=micros()+p;
@@ -87,6 +89,7 @@ void setup() {
 // the loop routine runs over and over again forever:
 void loop() {            // wait for a second
   //digitalWrite(led, HIGH);  
+  /*
   sendHeader();
   //wave is 0x88
   sendOne();
@@ -96,6 +99,6 @@ void loop() {            // wait for a second
   sendOne();
   sendZero();
   sendZero();
-  sendZero();
+  sendZero();*/ 
   delay(2000);   
 }
