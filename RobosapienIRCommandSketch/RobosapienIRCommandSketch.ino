@@ -164,12 +164,12 @@ void loop() {            // wait for a second
         
         Serial.println("Command Number");
         Serial.println(cmdInt);
-        if(cmdInt)
+        if(cmdInt>=0)
         {
           Serial.println("Executing Command");
           sendCommand(cmdInt); //0x88 high5 0x8E fart
           Serial.println("Command Executed, erasing command from firebase");
-          system("curl -X PUT -d '\"0\"' https://blazing-fire-1158.firebaseio.com/robosapien.json");
+          system("curl -X PUT -d '\"-1\"' https://blazing-fire-1158.firebaseio.com/robosapien.json");
           Serial.println("Command erased");
         }
       }
